@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- PatternFly Styles -->
+	<link href="bower_components/patternfly/dist/css/patternfly.min.css" rel="stylesheet" media="screen, print">
+	<link href="bower_components/patternfly/dist/css/patternfly-additions.min.css" rel="stylesheet" media="screen, print">
+	<link href="bower_components/patternfly/dist/css/patternfly-additions.min.css" rel="stylesheet" media="screen, print">
+	<img src="nav.png" style="border: none; width: 100%;"/>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script>
+
+var app = angular.module('newApp', []);
+app.controller('formController', function($scope,$http) {
+
+$scope.checked = false;
+$scope.viewTasks = function() {
+$http({
+        url: 'http://localhost:8097/camel/tasks',
+        method: "POST",
+        data:$scope.user,
+
+    })
+    .then(function(response) {
+            // success
+
+
+            $scope.tasks  = response.data;
+            $scope.user = null;
+
+    },
+    function(response) { // optional
+            // failed
+            console.log (JSON.stringify (response, null, 2));
+    });}
+
+    $scope.reassignTasks = function() {
+
+    for (var i = 0; i < $scope.tasks.length; i++) {
+	                $scope.tasks[i].reassignmentUser = $scope.reAssignUser;
+
+	            }
+    $http({
+        url: 'http://localhost:8097/camel/tasksReassign',
+        method: "POST",
+        data:$scope.tasks
+
+    })
+    .then(function(response) {
+            // success
+
+
+            $scope.message  = response.data;
+            $scope.user = null;
+
+    },
+    function(response) { // optional
+            // failed
+            console.log (JSON.stringify (response, null, 2));
+    });}
+
+            // This executes when checkbox in table header is checked
+	        $scope.selectAll = function () {
+	            // Loop through all the entities and set their isChecked property
+	            for (var i = 0; i < $scope.tasks.length; i++) {
+	                $scope.tasks[i].reAssign = $scope.model.allItemsSelected;
+	                 $scope.tasks[i].reassignmentUser = $scope.reAssignUser;
+	                  $scope.checked = true;
+	            }
+	        };
+	         $scope.selectEntity = function () {
+
+	            // Loop through all the entities and set their isChecked property
+	            $scope.checked = true;
+	        };
+    })
+
+
+
+
+
+</script>
+	<!-- 
+	//////////////////////////////////////////////////////
+
+	FREE HTML5 TEMPLATE 
+	DESIGNED & DEVELOPED by FreeHTML5.co
+		
+	Website: 		http://freehtml5.co/
+	Email: 			info@freehtml5.co
+	Twitter: 		http://twitter.com/fh5co
+	Facebook: 		https://www.facebook.com/fh5co
+
+	//////////////////////////////////////////////////////
+	 -->
+
+  	<!-- Facebook and Twitter integration -->
+
+
+	</head>
+
+<body id="app-body">
+
+
+
+<div class="container-fluid">
+	<div class="container-wrap" ng-controller="formController"  ng-app = "newApp">
+
+		<div id="fh5co-contact">
+			<div class="row animate-box">
+				<div class="col-md-6 col-md-offset-3 text-center">
+
+				<h2>Reassign Dashboard</h2>
+
+
+					<br/><br/><div >
+					<select ng-model="user">
+						<option value="Celestina">Celestina</option>
+						<option value="Cylia">Cylia</option>
+						<option value="agentLogin">agentLogin</option>
+						<option value="James">James</option>
+					</select>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="submit" value="View Tasks" class="btn btn-primary btn-modify" ng-click="viewTasks()">
+
+					<br/><br/>
+					<table border = "1"  ng-show="tasks != null" class="col-md-6 col-md-offset-3 text-center" >
+						<tr class="row"><td>&nbsp;&nbsp;&nbsp;Task Id&nbsp;&nbsp;&nbsp;</td>
+							<td>&nbsp;&nbsp;&nbsp;Task Name&nbsp;&nbsp;&nbsp;</td>
+							<td>&nbsp;&nbsp;&nbsp;Task Status&nbsp;&nbsp;&nbsp;</td>
+							<td><input type="checkbox" ng-model="model.allItemsSelected" ng-change="selectAll()"></td>
+						</tr>
+
+
+
+						<tr class="row" ng-repeat="name in tasks">
+
+
+							<td>{{name.taskId}}</td>
+							<td>{{name.taskName}}</td>
+							<td>{{name.taskStatus}}</td>
+							<td><input type="checkbox" ng-model="name.reAssign" ng-change="selectEntity()"></td>
+
+
+						</tr>
+
+
+
+					</table>
+
+					<div  ng-show="checked == true" class="col-md-6 col-md-offset-3 text-center">
+						<br/><br/>
+						<input type="text" ng-model="reAssignUser" placeholder="Reassignment User"/>
+						<br/><br/>
+						<input type="submit" value="Reassign" class="btn btn-primary btn-modify" ng-click="reassignTasks()">
+
+
+
+					</div>
+					<div class="col-md-6 col-md-offset-3 text-center">
+						<br/>
+						<span>{{message}}</span>
+					</div>
+
+				</div>
+
+				</div>
+				</div>
+			</div>
+
+
+
+	</div><!-- END container-wrap -->
+
+
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
+	</div>
+	
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Flexslider -->
+	<script src="js/jquery.flexslider-min.js"></script>
+	<!-- Carousel -->
+	<script src="js/owl.carousel.min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/magnific-popup-options.js"></script>
+	<!-- Counters -->
+	<script src="js/jquery.countTo.js"></script>
+	<!-- Main -->
+	<script src="js/main.js"></script>
+
+	</body>
+</html>
+

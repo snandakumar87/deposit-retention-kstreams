@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- PatternFly Styles -->
+	<link href="bower_components/patternfly/dist/css/patternfly.min.css" rel="stylesheet" media="screen, print">
+	<link href="bower_components/patternfly/dist/css/patternfly-additions.min.css" rel="stylesheet" media="screen, print">
+	<link href="bower_components/patternfly/dist/css/patternfly-additions.min.css" rel="stylesheet" media="screen, print">
+	<img src="nav.png" style="border: none; width: 100%;"/>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script>
+
+var app = angular.module('myApp', []);
+app.controller('BranchFormController', function($scope,$http) {
+
+
+
+ $http.get("http://localhost:8097/camel/summary")
+                    .then(function (response) {
+
+                    $scope.names =response.data;
+
+                    })
+
+
+
+
+});
+</script>
+</head>
+<body id="app-body">
+<div data-field="list-view">
+	<div class="container-fluid">
+		<div class="container-wrap" ng-controller="BranchFormController"  ng-app = "myApp">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3 text-center animate-box">
+						<p><h1>Good Morning!Your task history as of today</h1></p>
+						<br/><br/>
+					</div>
+				</div>
+				<div>
+
+					<div class="col-md-12 col-md-offset-3">
+						<div class="row  text-center">
+
+							<div class="col-md-3 col-sm-6 col-xs-6 text-center">
+								<hr><b><span>Completed</span></b><hr>
+								<br/><br/>
+								<span class="fh5co-counter-label">240</span>
+							</div>
+							<div class="col-md-3 col-sm-6 col-xs-6 text-center">
+								<hr><b><span >InProgress</span></b><hr>
+								<br/><br/>
+								<span class="fh5co-counter-label">{{names}}</span>
+							</div>
+
+
+							<span></span>
+							<br/>
+						</div>
+					</div>
+						<div class="col-md-6 col-md-offset-3 text-center animate-box">
+							<div class="row  text-center">
+								<br/><br/>
+								<p><input type="submit" value="Task Assignment" class="btn btn-primary btn-modify" ng-click="claimTask()"></p>
+							</div>
+
+						<br/>
+
+						</div>
+					</div>
+
+
+		<div id="fh5co-contact">
+			<div class="row animate-box">
+
+				<div  ng-repeat="name in tasks">
+
+
+					<div >
+						<br/>
+						<br/>
+						<div class="col-md-6 col-md-offset-3 text-center animate-box">
+							<p><h3>The folllowing task has been assigned to you, please follow the link to the complete the task.</h3></p>
+							<br/><br/>
+						</div>
+						<div class="col-md-6 col-md-offset-3">
+							<div class="row  text-center">
+								<div class="col-md-3 col-sm-6 col-xs-6 text-center">
+							<span class="fh5co-counter-label">Task Id</span><br/>
+							<b><span class="fh5co-counter-label">TASK_{{name.taskId}}</span></b>
+						</div>
+								<div class="col-md-3 col-sm-6 col-xs-6 text-center">
+							<span class="fh5co-counter-label">Task Name</span><br/>
+							<span class="fh5co-counter-label"><b>{{name.taskName}}</b></span>
+						</div>
+
+								<div class="col-md-3 col-sm-6 col-xs-6 text-center">
+							<span class="fh5co-counter-label">Task Status</span><br/>
+							<span class="fh5co-counter-label"><b>{{name.taskStatus}}</b></span>
+						</div>
+								<div class="col-md-3 col-sm-6 col-xs-6 text-center">
+							<span class="fh5co-counter-label">Action</span><br/>
+							<span class="fh5co-counter-label"><b><a href="http://localhost:8080/rhpam-case-mgmt-showcase/jbpm-cm.html#CaseOverview">Case Dashboard</a></b></span>
+						</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+</div>
+</body>
+</html>
