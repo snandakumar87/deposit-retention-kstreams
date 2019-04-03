@@ -24,16 +24,27 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<bom.version>7.0.0.fuse-000027-redhat-1</bom.version>
 	</properties>
 	<dependencyManagement>
 
 		<dependencies>
 			<dependency>
-				<groupId>org.drools</groupId>
-				<artifactId>drools-bom</artifactId>
+				<!-- https://mvnrepository.com/artifact/org.drools/drools-bom -->
+
+					<groupId>org.drools</groupId>
+					<artifactId>drools-bom</artifactId>
+					<version>7.18.0.Final-redhat-00002</version>
 				<type>pom</type>
-				<version>7.11.0.Final-redhat-00004</version>
 				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.redhat-fuse</groupId>
+				<artifactId>fuse-springboot-bom</artifactId>
+				<version>${bom.version}</version>
+				<type>pom</type>
+
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -137,6 +148,32 @@
 			<artifactId>gson</artifactId>
 			<version>2.8.5</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>2.21.0.fuse-720050-redhat-00001</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kie</groupId>
+			<artifactId>kie-dmn-core</artifactId>
+			<version>LATEST</version>
+		</dependency>
+
 
 	</dependencies>
 
@@ -145,6 +182,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jboss.redhat-fuse</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${bom.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>
